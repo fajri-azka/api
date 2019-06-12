@@ -4,3 +4,7 @@
 /Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/model/UserRequest.java
 /Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/controller/UserController.java
 /Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/model/UserRequestResponse.java
+/Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/exception/FieldMustNotBeEmptyException.java
+/Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/exception/UserIsEmpyException.java
+/Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/exception/UserNotFoundException.java
+/Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/model/DataSahamRequest.java

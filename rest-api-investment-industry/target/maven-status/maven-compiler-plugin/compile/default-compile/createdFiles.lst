@@ -1,6 +1,10 @@
+com/doku/restapi/model/DataSahamRequest.class
+com/doku/restapi/exception/UserIsEmpyException.class
 com/doku/restapi/services/UserServices.class
 com/doku/restapi/services/implement/UserServicesImplement.class
 com/doku/restapi/controller/UserController.class
+com/doku/restapi/exception/FieldMustNotBeEmptyException.class
 com/doku/restapi/RestApiInvestmentIndustryApplication.class
+com/doku/restapi/exception/UserNotFoundException.class
 com/doku/restapi/model/UserRequest.class
 com/doku/restapi/model/UserRequestResponse.class

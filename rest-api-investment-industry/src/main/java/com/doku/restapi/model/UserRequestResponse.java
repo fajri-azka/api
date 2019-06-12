@@ -1,6 +1,6 @@
 package com.doku.restapi.model;
 
-import lombok.*;
+        import lombok.*;
 
 @Setter @Getter @ToString
 public class UserRequestResponse {
