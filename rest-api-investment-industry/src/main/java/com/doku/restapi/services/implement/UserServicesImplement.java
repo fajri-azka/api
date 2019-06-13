@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class UserServicesImplement implements UserServices  {
 
     UserRequestResponse returnValue;
-
     HashMap<String, UserRequestResponse> users;
 
     @Override
@@ -25,20 +24,17 @@ public class UserServicesImplement implements UserServices  {
         returnValue.setFullName(userDetails.getFullName());
         returnValue.setUserAddress(userDetails.getUserAddress());
         returnValue.setCurrentMoney(userDetails.getCurrentMoney());
-        returnValue.setKtpIdNumber(userDetails.getKtpIdNumber());
+        returnValue.setStockRequest(userDetails.getStockRequest());
 
         if (users == null){
             users = new HashMap<>();
         }
 
         users.put(userId, returnValue);
-
         return returnValue;
-
     }
 
-    public UserRequestResponse getUser (String userId){
-        return users.get(userId);
+    public UserRequestResponse getUser (String userId){ return users.get(userId);
     }
 
     public UserRequestResponse deleteUser (String userId){
@@ -56,11 +52,9 @@ public class UserServicesImplement implements UserServices  {
             updateUserTemp.setFullName(updateUserRequest.getFullName());
             updateUserTemp.setUserAddress(updateUserRequest.getUserAddress());
             updateUserTemp.setCurrentMoney(updateUserRequest.getCurrentMoney());
-            updateUserTemp.setKtpIdNumber(updateUserRequest.getKtpIdNumber());
+            updateUserTemp.setStockRequest(updateUserRequest.getStockRequest());
 
-            if(updateUserTemp != null) {
-                users.put(updateUserId, updateUserTemp);
-            }
+            users.put(updateUserId, updateUserTemp);
         }
         return  users.get(updateUserId);
     }

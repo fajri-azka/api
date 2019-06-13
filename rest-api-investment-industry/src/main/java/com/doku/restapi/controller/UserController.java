@@ -1,8 +1,6 @@
 package com.doku.restapi.controller;
 
-import com.doku.restapi.exception.FieldMustNotBeEmptyException;
-import com.doku.restapi.exception.UserIsEmpyException;
-import com.doku.restapi.exception.UserNotFoundException;
+import com.doku.restapi.exception.DataNotFoundException;
 import com.doku.restapi.model.UserRequest;
 import com.doku.restapi.model.UserRequestResponse;
 import com.doku.restapi.services.UserServices;
@@ -31,11 +29,7 @@ public class UserController {
     @PostMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity createUser(@Valid @RequestBody UserRequest userDetails){
         UserRequestResponse returnValue = userServices.createUser(userDetails);
-        if (returnValue != null){
-            return new ResponseEntity<>(returnValue, HttpStatus.OK);
-        } else {
-            throw new FieldMustNotBeEmptyException();
-        }
+        return new ResponseEntity<>(returnValue, HttpStatus.OK);
     }
 
 
@@ -46,7 +40,7 @@ public class UserController {
         if (returnValue != null){
             return new ResponseEntity<>(returnValue, HttpStatus.OK);
         } else {
-            throw new UserNotFoundException();
+            throw new DataNotFoundException();
         }
     }
 
@@ -57,7 +51,7 @@ public class UserController {
         if (returnValue != null){
             return new ResponseEntity<>(returnValue, HttpStatus.OK);
         } else {
-            throw new UserIsEmpyException();
+            throw new DataNotFoundException();
         }
     }
 
@@ -68,7 +62,7 @@ public class UserController {
         if (returnValue != null ){
             return new ResponseEntity<>(returnValue, HttpStatus.OK);
         } else {
-            throw new UserNotFoundException();
+            throw new DataNotFoundException();
         }
     }
 
