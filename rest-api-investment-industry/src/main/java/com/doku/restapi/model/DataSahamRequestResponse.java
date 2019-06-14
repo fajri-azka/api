@@ -11,9 +11,4 @@ public class DataSahamRequestResponse {
     private int stockSheetRequest;    // get from userRequestResponse
     private int stockPrice;           // stockPrice
     private int stockPriceTotal;      // stockPrice*stockSheet
-    private int moneyBalance;       // currentMoney-stockPriceTotal
-    private double returnDaily;     // stockPriceTotal*dailyReturn
-    private double returnMonthly;   // returnDaily*30
-    private double returnYearly;    // returnMonthly*12
-
 }

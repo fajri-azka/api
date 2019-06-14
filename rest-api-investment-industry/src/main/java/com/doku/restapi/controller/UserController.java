@@ -3,6 +3,7 @@ package com.doku.restapi.controller;
 import com.doku.restapi.exception.DataNotFoundException;
 import com.doku.restapi.model.UserRequest;
 import com.doku.restapi.model.UserRequestResponse;
+import com.doku.restapi.services.TransactionServices;
 import com.doku.restapi.services.UserServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,8 @@ public class UserController {
     @Autowired
     UserServices userServices;
 
+    @Autowired
+    TransactionServices transactionServices;
 
     @ApiOperation(value = "Create User")        //ADD USER
     @PostMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

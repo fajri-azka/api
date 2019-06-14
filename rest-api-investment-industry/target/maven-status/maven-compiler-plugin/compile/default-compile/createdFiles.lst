@@ -1,6 +1,7 @@
 com/doku/restapi/model/DataSahamRequest.class
 com/doku/restapi/model/ErrorMessage$ErrorMessageBuilder.class
 com/doku/restapi/services/implement/UserServicesImplement.class
+com/doku/restapi/model/DataSahamTransactionStatus.class
 com/doku/restapi/services/implement/TransactionServicesImplement.class
 com/doku/restapi/model/UserRequest.class
 com/doku/restapi/model/DataSahamRequestResponse.class

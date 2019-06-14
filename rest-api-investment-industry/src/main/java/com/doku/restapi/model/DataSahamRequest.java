@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter @Setter
 public class DataSahamRequest {
-    private String stockId = "1A-777-UAE649";
-    private String stockName = "BANK-BLACK-BEAR";
-    private int stockPrice = 1250 ;
-    private double stockDailyReturn = 0.015 ; //dalam %
+    private String stockId;
+    private String stockName;
+    private int stockPrice;
+    private double stockDailyReturn; //dalam %
 }

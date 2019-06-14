@@ -23,19 +23,19 @@ public class AppExceptionHandler  {
                 );
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        Logger.getLogger(ex.getMessage());
-
-        String[] errors = ex.getBindingResult().getFieldErrors().stream()
-                .map(f -> f.getField() + " " + f.getDefaultMessage())
-                .toArray(String[]::new);
-
-        return ResponseEntity.badRequest()
-                .body(ErrorMessage.builder()
-                        .message("Arguments not valid / match")
-                        .errors(errors)
-                        .build()
-                );
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+//        Logger.getLogger(ex.getMessage());
+//
+//        String[] errors = ex.getBindingResult().getFieldErrors().stream()
+//                .map(f -> f.getField() + " " + f.getDefaultMessage())
+//                .toArray(String[]::new);
+//
+//        return ResponseEntity.badRequest()
+//                .body(ErrorMessage.builder()
+//                        .message("Arguments not valid / match")
+//                        .errors(errors)
+//                        .build()
+//                );
+//    }
 }

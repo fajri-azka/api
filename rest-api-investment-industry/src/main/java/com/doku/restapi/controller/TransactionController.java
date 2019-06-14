@@ -4,6 +4,7 @@ import com.doku.restapi.exception.DataNotFoundException;
 import com.doku.restapi.model.DataSaham;
 import com.doku.restapi.model.DataSahamRequest;
 import com.doku.restapi.model.DataSahamRequestResponse;
+import com.doku.restapi.model.DataSahamTransactionStatus;
 import com.doku.restapi.services.TransactionServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.HashMap;
 
 @Api("User Management API Documentation")
 @RestController
@@ -28,8 +27,8 @@ public class TransactionController {
 
     @ApiOperation(value = "Search User by ID")  //SEARCH BY ID
     @GetMapping(value = "/stock")
-    public ResponseEntity getStock(DataSahamRequest dataSahamRequest){
-        DataSaham returnStock = transactionServices.getStock(dataSahamRequest);
+    public ResponseEntity getStock(DataSaham dataSaham){
+        DataSahamRequest returnStock = transactionServices.getStock(dataSaham);
         if (returnStock != null){
             return new ResponseEntity<>(returnStock, HttpStatus.OK);
         } else {
@@ -39,8 +38,8 @@ public class TransactionController {
 
     @ApiOperation(value = "Search User by ID")  //SEARCH BY ID
     @GetMapping(value = "/{userId}")
-    public ResponseEntity calculateStock(@PathVariable String userId, DataSahamRequest dataSahamRequest){
-        DataSahamRequestResponse returnTransaction = transactionServices.createTransaction(userId, dataSahamRequest);
+    public ResponseEntity calculateStock(@PathVariable String userId, DataSaham dataSaham){
+        DataSahamRequestResponse returnTransaction = transactionServices.createTransaction(userId, dataSaham);
         if (returnTransaction != null){
             return new ResponseEntity<>(returnTransaction, HttpStatus.OK);
         } else {
@@ -50,8 +49,8 @@ public class TransactionController {
 
     @ApiOperation(value = "Search User by ID")  //SEARCH BY ID
     @GetMapping(value = "/status/{userId}")
-    public ResponseEntity updateStock(@PathVariable String userId, DataSahamRequest dataSahamRequest){
-        DataSahamRequestResponse returnTransaction = transactionServices.updateTransaction(userId, dataSahamRequest);
+    public ResponseEntity updateTransaction(@PathVariable String userId, DataSahamRequest dataSahamRequest){
+        DataSahamTransactionStatus returnTransaction = transactionServices.updateTransaction(userId, dataSahamRequest);
         if (returnTransaction != null){
             return new ResponseEntity<>(returnTransaction, HttpStatus.OK);
         } else {
