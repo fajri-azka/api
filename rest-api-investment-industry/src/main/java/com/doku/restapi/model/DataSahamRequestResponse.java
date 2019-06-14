@@ -1,10 +1,6 @@
 package com.doku.restapi.model;
 
 import lombok.*;
-import org.springframework.format.annotation.NumberFormat;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 @Setter @Getter @ToString
 public class DataSahamRequestResponse {

@@ -17,7 +17,7 @@ public class AppExceptionHandler  {
 
         return ResponseEntity.badRequest()
                 .body(ErrorMessage.builder()
-                        .message("The user id you sent is invalid / not match")
+                        .message("The data is invalid / not match")
                         .errors(new String[]{ex.getMessage()})
                         .build()
                 );

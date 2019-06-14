@@ -10,6 +10,7 @@ com/doku/restapi/controller/UserController.class
 com/doku/restapi/model/ErrorMessage.class
 com/doku/restapi/services/TransactionServices.class
 com/doku/restapi/RestApiInvestmentIndustryApplication.class
+com/doku/restapi/model/DataSaham.class
 com/doku/restapi/exception/AppExceptionHandler.class
 com/doku/restapi/exception/DataNotFoundException.class
 com/doku/restapi/model/UserRequestResponse.class

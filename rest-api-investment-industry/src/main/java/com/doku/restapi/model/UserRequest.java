@@ -2,7 +2,6 @@ package com.doku.restapi.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.*;
 
