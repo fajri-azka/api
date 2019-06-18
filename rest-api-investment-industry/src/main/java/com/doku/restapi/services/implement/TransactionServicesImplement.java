@@ -1,91 +1,133 @@
 package com.doku.restapi.services.implement;
 
+import com.doku.restapi.exception.DataNotFoundException;
 import com.doku.restapi.model.*;
 import com.doku.restapi.services.TransactionServices;
+import com.doku.restapi.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 @Service(value = "TransactionServices")
 public class TransactionServicesImplement implements TransactionServices {
 
     @Autowired
-    private UserServicesImplement userServicesImplement;
+    private UserServices userServices;
 
-    DataSahamRequestResponse returnSaham;
-    HashMap<String, DataSahamRequestResponse> saham;
+    @Autowired
+    private TransactionServices transactionServices;
+
+    DataSahamRequestResponse returnSahamResponse;
+    HashMap<String, DataSahamRequestResponse> sahamResponse;
 
     DataSahamRequest returnSahamRequest;
-    HashMap<String, DataSahamRequest> sahamrequest;
+    HashMap<String, DataSahamRequest> sahamRequest;
 
     DataSahamTransactionStatus returnTransaction;
     HashMap<String, DataSahamTransactionStatus> transactionstatus;
 
-    public DataSahamRequest getStock(DataSaham dataSaham) {
+
+
+    public DataSahamRequest createStock(DataSaham dataSaham) {
         returnSahamRequest = new DataSahamRequest();
 
         returnSahamRequest.setStockId(dataSaham.getStockId());
-        String stockid = returnSahamRequest.getStockId();
+        String stockId = returnSahamRequest.getStockId();
 
         returnSahamRequest.setStockName(dataSaham.getStockName());
         returnSahamRequest.setStockPrice(dataSaham.getStockPrice());
         returnSahamRequest.setStockDailyReturn(dataSaham.getStockDailyReturn());
 
-        if (sahamrequest == null){
-            sahamrequest = new HashMap<>();
+        if (sahamRequest == null){
+            sahamRequest = new HashMap<>();
         }
 
-        sahamrequest.put(stockid, returnSahamRequest);
+        sahamRequest.put(stockId, returnSahamRequest);
         return returnSahamRequest;
     }
 
-    //@Override
-    public  DataSahamRequestResponse createTransaction(String userid, DataSaham dataSaham) {
-        returnSaham = new DataSahamRequestResponse();
+    public Collection <DataSahamRequest> getAllStock() {
+        return sahamRequest.values();
+    }
 
-        returnSaham.setUserId(userid);
-        String usertransactionid = returnSaham.getUserId();
+    public DataSahamRequest getStock (String stockId){ return sahamRequest.get(stockId);
+    }
 
-        UserRequestResponse userRequestResponse = userServicesImplement.getUser(userid);
+    @Override
+    public  DataSahamRequestResponse createTransaction(DataSahamRequestResponse dataSahamRequestResponse) {
+        returnSahamResponse = new DataSahamRequestResponse();
 
-        returnSaham.setFullName(userRequestResponse.getFullName());
-        returnSaham.setStockId(dataSaham.getStockId());
-        returnSaham.setStockName(dataSaham.getStockName());
-        returnSaham.setStockSheetRequest(userRequestResponse.getStockRequest());
-        returnSaham.setStockPrice(dataSaham.getStockPrice());
-        returnSaham.setStockPriceTotal(dataSaham.getStockPrice()*userRequestResponse.getStockRequest());
+        //returnSahamResponse.setUserId(userId);
+        String userTransactonId = dataSahamRequestResponse.getUserId();
+        String stockTransactonId = dataSahamRequestResponse.getStockId();
 
-        if (saham == null){
-            saham = new HashMap<>();
+
+        UserRequestResponse userRequestResponse = userServices.getUser(userTransactonId);
+        DataSahamRequest dataSahamRequest = transactionServices.getStock(stockTransactonId);
+
+        int stockUserRequestTemp = userRequestResponse.getStockRequest();
+        int stockPriceTemp = dataSahamRequest.getStockPrice();
+
+        returnSahamResponse.setUserId(userTransactonId);
+        returnSahamResponse.setFullName(userRequestResponse.getFullName());
+        returnSahamResponse.setStockId(dataSahamRequest.getStockId());
+        returnSahamResponse.setStockName(dataSahamRequest.getStockName());
+        returnSahamResponse.setStockSheetRequest(userRequestResponse.getStockRequest());
+        returnSahamResponse.setStockPrice(dataSahamRequest.getStockPrice());
+        returnSahamResponse.setStockPriceTotal(stockPriceTemp * stockUserRequestTemp);
+
+        if (sahamResponse == null){
+            sahamResponse = new HashMap<>();
         }
 
-        saham.put(usertransactionid, returnSaham);
-        return returnSaham;
+        sahamResponse.put(userTransactonId, returnSahamResponse);
+        return returnSahamResponse;
 
     }
 
-    public DataSahamTransactionStatus updateTransaction(String userid, DataSahamRequest dataSahamRequest) {
-        returnTransaction = new DataSahamTransactionStatus();
 
-        returnTransaction.setUserId(userid);
+
+    public DataSahamTransactionStatus updateTransaction(DataSahamRequestResponse dataSahamRequestResponse) {
+        returnTransaction = new DataSahamTransactionStatus();
+        String ID = returnSahamResponse.getUserId();
+
+        returnTransaction.setUserId(ID);
         String usertransactionid = returnTransaction.getUserId();
 
-        UserRequestResponse userRequestResponse = userServicesImplement.getUser(userid);
+        UserRequestResponse userRequestResponse = userServices.getUser(ID);
+        String stockTransactionId = dataSahamRequestResponse.getStockId();
 
-        returnTransaction.setMessageTransactionStatus("Transaction Success");
-        returnTransaction.setMoneyBalance(userRequestResponse.getCurrentMoney() - returnSaham.getStockPriceTotal());
-        returnTransaction.setReturnDaily(returnSaham.getStockPriceTotal()*returnSahamRequest.getStockDailyReturn());
-        returnTransaction.setReturnMonthly(returnTransaction.getReturnDaily()*30);
-        returnTransaction.setReturnYearly(returnTransaction.getReturnMonthly()*12);
+        DataSahamRequest dataSahamRequestTemp = transactionServices.getStock(stockTransactionId);
 
+        int currentMoneyTemp = userRequestResponse.getCurrentMoney();
+        int stockPriceTotal = returnSahamResponse.getStockPriceTotal();
 
-        if ( transactionstatus == null) {
-            transactionstatus = new HashMap<>();
+        if (currentMoneyTemp >= stockPriceTotal) {
+
+            returnTransaction.setMessageTransactionStatus("Transaction Success");
+            returnTransaction.setMoneyBalance(currentMoneyTemp - stockPriceTotal);
+            returnTransaction.setReturnDaily(returnSahamResponse.getStockPriceTotal() * returnSahamRequest.getStockDailyReturn());
+            returnTransaction.setReturnMonthly(returnTransaction.getReturnDaily() * 30);
+            returnTransaction.setReturnYearly(returnTransaction.getReturnMonthly() * 12);
+
+            if (transactionstatus == null) {
+                transactionstatus = new HashMap<>();
+            }
+            transactionstatus.put(usertransactionid, returnTransaction);
+
+            userRequestResponse.setCurrentMoney(returnTransaction.getMoneyBalance());
+            return returnTransaction;
+
+        } else {
+            throw new DataNotFoundException("YOUR BALANCE IS NOT ENOUGH");
         }
-
-        transactionstatus.put(usertransactionid, returnTransaction);
-        return returnTransaction;
     }
+
+    public Collection <DataSahamTransactionStatus> getAllTransaction() {
+        return transactionstatus.values();
+    }
+
 }
 

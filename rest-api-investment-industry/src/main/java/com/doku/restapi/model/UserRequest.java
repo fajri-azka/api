@@ -7,8 +7,8 @@ import javax.validation.constraints.*;
 
 @Getter @Setter @NotNull
 public class UserRequest {
-    @Size(min = 1, message = "must not be empty")
-    private String userId;
+    //@Size(min = 1, message = "must not be empty")
+    private int userId;
     @Size(min = 2, message = "must not be less than 2 characters")
     private String fullName;
     @Size(min = 2, message = "must not be less than 2 characters")

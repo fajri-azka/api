@@ -13,14 +13,13 @@ public class UserServicesImplement implements UserServices  {
 
     UserRequestResponse returnValue;
     HashMap<String, UserRequestResponse> users;
+    int userID = 0;
 
     @Override
     public UserRequestResponse createUser(UserRequest userDetails){
+        //int userID;
         returnValue = new UserRequestResponse();
-
         returnValue.setUserId(userDetails.getUserId());
-        String userId = returnValue.getUserId();
-
         returnValue.setFullName(userDetails.getFullName());
         returnValue.setUserAddress(userDetails.getUserAddress());
         returnValue.setCurrentMoney(userDetails.getCurrentMoney());
@@ -28,7 +27,23 @@ public class UserServicesImplement implements UserServices  {
 
         if (users == null){
             users = new HashMap<>();
+
+            userID = 1;
+            returnValue.setUserId(userID);
+
+            String userId = Integer.toString(returnValue.getUserId());
+            users.put(userId, returnValue);
+
+        } else {
+            userID += 1;
+            returnValue.setUserId(userID);
+            String userId = Integer.toString(returnValue.getUserId());
+
+            users.put(userId, returnValue);
+
         }
+
+        String userId = Integer.toString(returnValue.getUserId());
 
         users.put(userId, returnValue);
         return returnValue;

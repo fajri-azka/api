@@ -5,8 +5,13 @@ import com.doku.restapi.model.DataSahamRequest;
 import com.doku.restapi.model.DataSahamRequestResponse;
 import com.doku.restapi.model.DataSahamTransactionStatus;
 
+import java.util.Collection;
+
 public interface TransactionServices {
-    DataSahamRequest getStock(DataSaham dataSaham);
-    DataSahamRequestResponse createTransaction(String transactionUserId, DataSaham dataSaham);
-    DataSahamTransactionStatus updateTransaction(String transactionUserId, DataSahamRequest dataSahamRequest);
+    DataSahamRequest createStock(DataSaham dataSaham);
+    DataSahamRequest getStock(String stockId);
+    Collection <DataSahamRequest> getAllStock();
+    DataSahamRequestResponse createTransaction(DataSahamRequestResponse dataSahamRequestResponse);
+    DataSahamTransactionStatus updateTransaction(DataSahamRequestResponse dataSahamRequestResponse);
+    Collection <DataSahamTransactionStatus> getAllTransaction();
 }
