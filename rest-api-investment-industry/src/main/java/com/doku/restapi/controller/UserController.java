@@ -43,7 +43,7 @@ public class UserController {
         if (returnValue != null){
             return new ResponseEntity<>(returnValue, HttpStatus.OK);
         } else {
-            throw new DataNotFoundException();
+            throw new DataNotFoundException("Get User Request : Data Not Found");
         }
     }
 
@@ -54,7 +54,7 @@ public class UserController {
         if (returnValue != null){
             return new ResponseEntity<>(returnValue, HttpStatus.OK);
         } else {
-            throw new DataNotFoundException();
+            throw new DataNotFoundException("Delete Request : Data Not Found");
         }
     }
 
@@ -62,11 +62,7 @@ public class UserController {
     @GetMapping(value = "/showUser")
     public ResponseEntity getAllUser(){
         Collection returnValue = userServices.getAllUser();
-        if (returnValue != null ){
-            return new ResponseEntity<>(returnValue, HttpStatus.OK);
-        } else {
-            throw new DataNotFoundException();
-        }
+        return new ResponseEntity<>(returnValue, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Shows All User")     //UPDATE USER

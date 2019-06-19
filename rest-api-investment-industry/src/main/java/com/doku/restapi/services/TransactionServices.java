@@ -13,5 +13,5 @@ public interface TransactionServices {
     Collection <DataSahamRequest> getAllStock();
     DataSahamRequestResponse createTransaction(DataSahamRequestResponse dataSahamRequestResponse);
     DataSahamTransactionStatus updateTransaction(DataSahamRequestResponse dataSahamRequestResponse);
-    Collection <DataSahamTransactionStatus> getAllTransaction();
+    //Collection <DataSahamTransactionStatus> getAllTransaction();
 }

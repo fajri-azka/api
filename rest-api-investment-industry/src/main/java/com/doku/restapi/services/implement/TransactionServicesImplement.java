@@ -125,9 +125,9 @@ public class TransactionServicesImplement implements TransactionServices {
         }
     }
 
-    public Collection <DataSahamTransactionStatus> getAllTransaction() {
-        return transactionstatus.values();
-    }
+//    public Collection <DataSahamTransactionStatus> getAllTransaction() {
+//        return transactionstatus.values();
+//    }
 
 }
 

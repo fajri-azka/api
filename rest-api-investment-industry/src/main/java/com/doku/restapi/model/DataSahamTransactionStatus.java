@@ -4,7 +4,6 @@ import lombok.*;
 
 @Setter
 @Getter
-@ToString
 
 public class DataSahamTransactionStatus {
     private String userId;

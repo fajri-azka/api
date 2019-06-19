@@ -47,11 +47,7 @@ public class TransactionController {
     @GetMapping(value = "/allStock")
     public ResponseEntity getAllStock() {
         Collection<DataSahamRequest> returnStock = transactionServices.getAllStock();
-        if (returnStock != null) {
-            return new ResponseEntity(returnStock, HttpStatus.OK);
-        } else {
-            throw new DataNotFoundException();
-        }
+        return new ResponseEntity(returnStock, HttpStatus.OK);
     }
 
     @ApiOperation(value = "CREATE TRANSACTION")  //CREATE TRANSACTION (INQUIRY)
@@ -61,29 +57,29 @@ public class TransactionController {
         if (returnTransaction != null){
             return new ResponseEntity<>(returnTransaction, HttpStatus.OK);
         } else {
-            throw new DataNotFoundException();
+            throw new DataNotFoundException("Transaction Request (Inquiry) : FAILED, Data Not Found");
         }
     }
 
     @ApiOperation(value = "STATUS TRANSACTION")  //STATUS TRANSACTION
-    @GetMapping(value = "/status/{userId}")
+    @GetMapping(value = "/procestransaction/{userId}")
     public ResponseEntity updateTransaction(DataSahamRequestResponse dataSahamRequestResponse){
         DataSahamTransactionStatus returnTransaction = transactionServices.updateTransaction(dataSahamRequestResponse);
         if (returnTransaction != null){
             return new ResponseEntity<>(returnTransaction, HttpStatus.OK);
         } else {
-            throw new DataNotFoundException();
+            throw new DataNotFoundException("Transaction Status : FAILED, Data Not Found");
         }
     }
 
-    @ApiOperation(value = "GET ALL TRANSACTION")  //GET ALL TRANSACTION
-    @GetMapping(value = "/alltransaction")
-    public ResponseEntity getAllTransaction() {
-        Collection <DataSahamTransactionStatus> returnTransaction = transactionServices.getAllTransaction();
-        if (returnTransaction != null) {
-            return new ResponseEntity(returnTransaction, HttpStatus.OK);
-        } else {
-            throw new DataNotFoundException();
-        }
-    }
+//    @ApiOperation(value = "GET ALL TRANSACTION")  //GET ALL TRANSACTION
+//    @GetMapping(value = "/alltransaction")
+//    public ResponseEntity getAllTransaction() {
+//        Collection <DataSahamTransactionStatus> returnTransaction = transactionServices.getAllTransaction();
+//        if (returnTransaction != null) {
+//            return new ResponseEntity(returnTransaction, HttpStatus.OK);
+//        } else {
+//            throw new DataNotFoundException();
+//        }
+//    }
 }
