@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 @Service(value = "TransactionServices")
 public class TransactionServicesImplement implements TransactionServices {
@@ -28,7 +29,10 @@ public class TransactionServicesImplement implements TransactionServices {
     DataSahamTransactionStatus returnTransaction;
     HashMap<String, DataSahamTransactionStatus> transactionstatus;
 
+    DataSahamTransactionList returnTransactionList;
+    HashMap<String, DataSahamTransactionList> transactionlist;
 
+    int transactionNumber=0;
 
     public DataSahamRequest createStock(DataSaham dataSaham) {
         returnSahamRequest = new DataSahamRequest();
@@ -52,8 +56,7 @@ public class TransactionServicesImplement implements TransactionServices {
         return sahamRequest.values();
     }
 
-    public DataSahamRequest getStock (String stockId){ return sahamRequest.get(stockId);
-    }
+    public DataSahamRequest getStock (String stockId){ return sahamRequest.get(stockId); }
 
     @Override
     public  DataSahamRequestResponse createTransaction(DataSahamRequestResponse dataSahamRequestResponse) {
@@ -88,36 +91,71 @@ public class TransactionServicesImplement implements TransactionServices {
     }
 
 
-
     public DataSahamTransactionStatus updateTransaction(DataSahamRequestResponse dataSahamRequestResponse) {
         returnTransaction = new DataSahamTransactionStatus();
-        String ID = returnSahamResponse.getUserId();
+        returnTransactionList = new DataSahamTransactionList();
+        String userID = returnSahamResponse.getUserId();
 
-        returnTransaction.setUserId(ID);
+        returnTransaction.setUserId(userID);
         String usertransactionid = returnTransaction.getUserId();
 
-        UserRequestResponse userRequestResponse = userServices.getUser(ID);
+        UserRequestResponse userRequestResponse = userServices.getUser(userID);
         String stockTransactionId = dataSahamRequestResponse.getStockId();
 
         DataSahamRequest dataSahamRequestTemp = transactionServices.getStock(stockTransactionId);
 
-        int currentMoneyTemp = userRequestResponse.getCurrentMoney();
-        int stockPriceTotal = returnSahamResponse.getStockPriceTotal();
+        returnTransactionList.setUserId(returnTransaction.getUserId());
+        returnTransactionList.setUserName(userRequestResponse.getFullName());
+        returnTransactionList.setStockId(returnSahamResponse.getStockId());
+        returnTransactionList.setStockName(returnSahamResponse.getStockName());
+        returnTransactionList.setStockRequest(returnSahamResponse.getStockSheetRequest());
+
+        int currentMoneyTemp = userRequestResponse.getCurrentMoney();           //Current Money Temporary
+        int stockPriceTotal = returnSahamResponse.getStockPriceTotal();         //Stock Price Total
+        double stockDailyReturn = returnSahamRequest.getStockDailyReturn();     //Stock Daily Return
 
         if (currentMoneyTemp >= stockPriceTotal) {
 
             returnTransaction.setMessageTransactionStatus("Transaction Success");
             returnTransaction.setMoneyBalance(currentMoneyTemp - stockPriceTotal);
-            returnTransaction.setReturnDaily(returnSahamResponse.getStockPriceTotal() * returnSahamRequest.getStockDailyReturn());
+            returnTransaction.setReturnDaily(stockPriceTotal * stockDailyReturn);
             returnTransaction.setReturnMonthly(returnTransaction.getReturnDaily() * 30);
             returnTransaction.setReturnYearly(returnTransaction.getReturnMonthly() * 12);
 
+            userRequestResponse.setCurrentMoney(returnTransaction.getMoneyBalance());
+
+            returnTransactionList.setTransactionCode(UUID.randomUUID().toString().replace("-", ""));
+
+            returnTransactionList.setMoneyBalance(userRequestResponse.getCurrentMoney());
+            returnTransactionList.setMessageTransactionStatus(returnTransaction.getMessageTransactionStatus());
+            returnTransactionList.setReturnDaily(returnTransaction.getReturnDaily());
+            returnTransactionList.setReturnMonthly(returnTransaction.getReturnMonthly());
+            returnTransactionList.setReturnYearly(returnTransaction.getReturnYearly());
+
+
             if (transactionstatus == null) {
                 transactionstatus = new HashMap<>();
-            }
-            transactionstatus.put(usertransactionid, returnTransaction);
+                transactionlist = new HashMap<>();
 
-            userRequestResponse.setCurrentMoney(returnTransaction.getMoneyBalance());
+                transactionNumber = 1;
+
+                returnTransactionList.setTransactionNumber(transactionNumber);
+
+                String TrxNum = Integer.toString(transactionNumber);
+                transactionlist.put(TrxNum, returnTransactionList);
+
+            } else {
+                transactionNumber += 1;
+                returnTransactionList.setTransactionNumber(transactionNumber);
+
+                String TrxNum = Integer.toString(transactionNumber);
+
+                transactionlist.put(TrxNum, returnTransactionList);
+                transactionstatus.put(usertransactionid, returnTransaction);
+
+            }
+            //transactionstatus.put(usertransactionid, returnTransaction);
+
             return returnTransaction;
 
         } else {
@@ -125,9 +163,11 @@ public class TransactionServicesImplement implements TransactionServices {
         }
     }
 
-//    public Collection <DataSahamTransactionStatus> getAllTransaction() {
-//        return transactionstatus.values();
-//    }
+    public DataSahamTransactionList getTransaction (String transactionNumber){ return transactionlist.get(transactionNumber); }
+
+    public Collection <DataSahamTransactionList> getAllTransaction() {
+        return transactionlist.values();
+    }
 
 }
 

@@ -1,10 +1,7 @@
 package com.doku.restapi.controller;
 
 import com.doku.restapi.exception.DataNotFoundException;
-import com.doku.restapi.model.DataSaham;
-import com.doku.restapi.model.DataSahamRequest;
-import com.doku.restapi.model.DataSahamRequestResponse;
-import com.doku.restapi.model.DataSahamTransactionStatus;
+import com.doku.restapi.model.*;
 import com.doku.restapi.services.TransactionServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -62,7 +59,7 @@ public class TransactionController {
     }
 
     @ApiOperation(value = "STATUS TRANSACTION")  //STATUS TRANSACTION
-    @GetMapping(value = "/procestransaction/{userId}")
+    @GetMapping(value = "/procestransaction")
     public ResponseEntity updateTransaction(DataSahamRequestResponse dataSahamRequestResponse){
         DataSahamTransactionStatus returnTransaction = transactionServices.updateTransaction(dataSahamRequestResponse);
         if (returnTransaction != null){
@@ -72,14 +69,25 @@ public class TransactionController {
         }
     }
 
-//    @ApiOperation(value = "GET ALL TRANSACTION")  //GET ALL TRANSACTION
-//    @GetMapping(value = "/alltransaction")
-//    public ResponseEntity getAllTransaction() {
-//        Collection <DataSahamTransactionStatus> returnTransaction = transactionServices.getAllTransaction();
-//        if (returnTransaction != null) {
-//            return new ResponseEntity(returnTransaction, HttpStatus.OK);
-//        } else {
-//            throw new DataNotFoundException();
-//        }
-//    }
+    @ApiOperation(value = "GET TRANSACTION NUMBER")  //TRANSACTION NUMBER
+    @GetMapping(value = "/gettransaction/{transactionNumber}")
+    public ResponseEntity getTransaction(@PathVariable String transactionNumber) {
+        DataSahamTransactionList returnTransaction = transactionServices.getTransaction(transactionNumber);
+        if (returnTransaction != null) {
+            return new ResponseEntity(returnTransaction, HttpStatus.OK);
+        } else {
+            throw new DataNotFoundException();
+        }
+    }
+
+    @ApiOperation(value = "GET ALL TRANSACTION")  //GET ALL TRANSACTION
+    @GetMapping(value = "/alltransaction")
+    public ResponseEntity getAllTransaction() {
+        Collection <DataSahamTransactionList> returnTransaction = transactionServices.getAllTransaction();
+        if (returnTransaction != null) {
+            return new ResponseEntity(returnTransaction, HttpStatus.OK);
+        } else {
+            throw new DataNotFoundException();
+        }
+    }
 }

@@ -1,4 +1,5 @@
 /Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/exception/AppExceptionHandler.java
+/Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/model/DataSahamTransactionList.java
 /Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/config/SwaggerConfig.java
 /Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/model/ErrorMessage.java
 /Users/muhammadfajriazka/Documents/Project-Git/rest-api-investment-industry/src/main/java/com/doku/restapi/controller/TransactionController.java

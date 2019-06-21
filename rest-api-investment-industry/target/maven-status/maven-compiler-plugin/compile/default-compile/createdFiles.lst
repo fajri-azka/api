@@ -9,6 +9,7 @@ com/doku/restapi/controller/TransactionController.class
 com/doku/restapi/services/UserServices.class
 com/doku/restapi/controller/UserController.class
 com/doku/restapi/model/ErrorMessage.class
+com/doku/restapi/model/DataSahamTransactionList.class
 com/doku/restapi/services/TransactionServices.class
 com/doku/restapi/RestApiInvestmentIndustryApplication.class
 com/doku/restapi/model/DataSaham.class

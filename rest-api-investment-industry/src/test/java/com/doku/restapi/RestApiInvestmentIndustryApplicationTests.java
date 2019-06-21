@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -47,10 +48,10 @@ public class RestApiInvestmentIndustryApplicationTests {
 	@Rule
 	public ExpectedException exceptionRule = ExpectedException.none();
 
-	@Test
-	public void mainTest() {
-		RestApiInvestmentIndustryApplication.main(new String[] {});
-	}
+//	@Test
+//	public void mainTest() {
+//		RestApiInvestmentIndustryApplication.main(new String[] {});
+//	}
 
 	@Test
 	public void createUserTest() {
@@ -392,6 +393,59 @@ public class RestApiInvestmentIndustryApplicationTests {
 
 	}
 
+	@Test
+	public void getAllTransactionTest() {
+		//updateTransactionTest();
+
+		//GET TRANSACTION TEST
+		log.info("GET TRANSACTION TEST");
+		DataSahamTransactionList testDataSahamTransactionList = new DataSahamTransactionList();
+		testDataSahamTransactionList.setTransactionNumber(2);
+		testDataSahamTransactionList.setMessageTransactionStatus("Transaction Success");// Transaction Status
+		testDataSahamTransactionList.setTransactionCode("XYZ");
+		testDataSahamTransactionList.setUserId("1");
+		testDataSahamTransactionList.setUserName("TESTING");
+		testDataSahamTransactionList.setStockId("1");
+		testDataSahamTransactionList.setStockName("XYZ");
+		testDataSahamTransactionList.setStockRequest(10);
+		testDataSahamTransactionList.setMoneyBalance(70000);               // currentMoney-stockPriceTotal
+		testDataSahamTransactionList.setReturnDaily(7500.0);             // stockPriceTotal*dailyReturn
+		testDataSahamTransactionList.setReturnMonthly(225000.0);           // returnDaily*30
+		testDataSahamTransactionList.setReturnYearly(2700000.0);
+
+		ResponseEntity dataSahamTransactionListController = transactionController.getTransaction("2");
+		DataSahamTransactionList dataSahamTransactionList = transactionServices.getTransaction("2");
+
+		assertThat(dataSahamTransactionList.getTransactionNumber()).isEqualTo(testDataSahamTransactionList.getTransactionNumber());
+		assertThat(dataSahamTransactionList.getMessageTransactionStatus()).isEqualTo(testDataSahamTransactionList.getMessageTransactionStatus());
+		assertThat(dataSahamTransactionList.getTransactionCode()).isNotEmpty();
+		assertThat(dataSahamTransactionList.getUserId()).isEqualTo(testDataSahamTransactionList.getUserId());
+		assertThat(dataSahamTransactionList.getUserName()).isEqualTo(testDataSahamTransactionList.getUserName());
+		assertThat(dataSahamTransactionList.getStockId()).isEqualTo(testDataSahamTransactionList.getStockId());
+		assertThat(dataSahamTransactionList.getStockName()).isEqualTo(testDataSahamTransactionList.getStockName());
+		assertThat(dataSahamTransactionList.getMoneyBalance()).isEqualTo(testDataSahamTransactionList.getMoneyBalance());
+		assertThat(dataSahamTransactionList.getStockRequest()).isEqualTo(testDataSahamTransactionList.getStockRequest());
+		assertThat(dataSahamTransactionList.getReturnDaily()).isEqualTo(testDataSahamTransactionList.getReturnDaily());
+		assertThat(dataSahamTransactionList.getReturnMonthly()).isEqualTo(testDataSahamTransactionList.getReturnMonthly());
+		assertThat(dataSahamTransactionList.getReturnYearly()).isEqualTo(testDataSahamTransactionList.getReturnYearly());
+		assertThat(dataSahamTransactionListController.getStatusCode().is2xxSuccessful()).isEqualTo(true);
+
+
+		//GET ALL TRANSACTION TEST
+		log.info("GET ALL TRANSACTION TEST");
+		Collection testGetAllTransaction = transactionServices.getAllTransaction();
+		assertThat(testGetAllTransaction.size()).isEqualTo(2);
+		//DataSahamRequest testGetAllStockServices = transactionServices.getStock("1");
+
+		//assertThat(transactionServices.getAllStock().toString()).isEqualTo("["+testGetAllStockServices+"]");
+		ResponseEntity responseEntity = transactionController.getAllTransaction();
+		assertThat(responseEntity.getStatusCode().is2xxSuccessful()).isEqualTo(true);
+
+		log.info("POSTED PARAMETER");
+		log.info(responseEntity.toString());
+	}
+
+
 
 	@Test(expected = DataNotFoundException.class)
 	public void DataUserNotFound() {
@@ -479,6 +533,7 @@ public class RestApiInvestmentIndustryApplicationTests {
         log.info(transactionStatusController.toString());
         log.info(transactionStatusServices.toString());
     }
+
 
 }
 
